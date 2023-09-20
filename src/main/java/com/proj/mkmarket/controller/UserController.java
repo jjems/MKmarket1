@@ -12,14 +12,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-   /* @GetMapping("/")
-    @ResponseBody
-    public String main(){
-        return "하위~";
-    }*/
+    /* @GetMapping("/")
+     @ResponseBody
+     public String main(){
+         return "하위~";
+     }*/
+    @GetMapping("/index")
+    public void main(){}
 
     @GetMapping("/signup")
     public String signupForm() {
+
         // 회원가입 폼을 보여주는 코드
 //        model.addAttribute("user", new UserEntity());
         return "signup";
