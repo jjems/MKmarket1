@@ -5,6 +5,8 @@ import com.proj.mkmarket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -19,5 +21,9 @@ public class UserService {
 //        user.setPwd(encodedPassword);
         // 필요한 검증 및 비즈니스 로직을 수행하고, userRepository를 사용하여 데이터 저장
         userRepository.save(user);
+    }
+
+    public List<UserEntity> users() {
+        return userRepository.findAll();
     }
 }

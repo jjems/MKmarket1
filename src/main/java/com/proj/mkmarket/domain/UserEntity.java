@@ -1,14 +1,12 @@
 package com.proj.mkmarket.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity // JPA가 관리할 수 있는 Entity 클래스 지정
 @Table(name = "mkmarket") // 매핑할 테이블의 이름을 지정
-@Getter
-@Setter
+@Data
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +20,4 @@ public class UserEntity {
     private Short grade;
     private Long createDate;
     private Boolean role;
-
-
 }

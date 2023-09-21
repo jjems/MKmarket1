@@ -4,8 +4,11 @@ import com.proj.mkmarket.domain.UserEntity;
 import com.proj.mkmarket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -18,7 +21,8 @@ public class UserController {
          return "하위~";
      }*/
     @GetMapping("/index")
-    public void main(){}
+    public void main() {
+    }
 
     @GetMapping("/signup")
     public String signupForm() {
@@ -34,4 +38,14 @@ public class UserController {
         userService.signup(user);
         return "redirect:/index"; // 회원가입 완료 후 로그인 페이지로 이동. 일단은 index로 이동
     }
+
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<UserEntity> users = userService.users();
+        model.addAttribute("userList", userService.users());
+        return "memberlist";
+    }
+
+
+
 }
