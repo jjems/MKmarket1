@@ -1,10 +1,14 @@
 package com.proj.mkmarket.service;
 
-import com.proj.mkmarket.domain.UserEntity;
+import com.proj.mkmarket.domain.User;
+import com.proj.mkmarket.dto.UserDTO;
 import com.proj.mkmarket.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -12,14 +16,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // 회원가입 로직 구현
-    public UserEntity signup(UserEntity user) {
-        String encodedPassword = passwordEncoder.encode(user.getPwd());
-        user.setPwd(encodedPassword);
-
+    public User signup(UserDTO userDTO) {
+        User user = User.toUser(userDTO);
         // 필요한 검증 및 비즈니스 로직을 수행하고, userRepository를 사용하여 데이터 저장
         return userRepository.save(user);
+    }
+
+    public UserDTO login(UserDTO userDTO) {
+        Optional<User> byUserId = userRepository.findByUserId(userDTO.getUserId());
+        if (byUserId.isPresent()) {
+            User user = byUserId.get();
+            if (user.getPwd().equals(userDTO.getPwd())) {
+                UserDTO dto = UserDTO.toUserDTO(user);
+                return dto;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

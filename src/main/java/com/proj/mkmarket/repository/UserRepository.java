@@ -1,8 +1,11 @@
 package com.proj.mkmarket.repository;
 
-import com.proj.mkmarket.domain.UserEntity;
+import com.proj.mkmarket.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+import java.util.Optional;
 
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUserId(String userId);
 }
