@@ -3,9 +3,7 @@ package com.proj.mkmarket.service;
 import com.proj.mkmarket.domain.User;
 import com.proj.mkmarket.dto.UserDTO;
 import com.proj.mkmarket.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,5 +36,18 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public UserDTO findById(Long idx) {
+        Optional<User> optionalUser = userRepository.findById(idx);
+        if (optionalUser.isPresent()) {
+//            MemberEntity memberEntity = optionalMemberEntity.get();
+//            MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
+//            return memberDTO;
+            return UserDTO.toUserDTO(optionalUser.get());
+        } else {
+            return null;
+        }
+
     }
 }

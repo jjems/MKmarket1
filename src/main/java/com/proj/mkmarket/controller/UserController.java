@@ -4,21 +4,22 @@ import com.proj.mkmarket.domain.User;
 import com.proj.mkmarket.dto.UserDTO;
 import com.proj.mkmarket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.Optional;
+
+import static javax.swing.text.html.HTML.Tag.U;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
-
-
 
     @GetMapping("/signup")
     public String signupForm() {
@@ -34,27 +35,10 @@ public class UserController {
         return "redirect:/users/login"; // 회원가입 완료 후 로그인 페이지로 이동. 일단은 index로 이동
     }
 
-    @GetMapping("/main")
-    public String main() {
-        return "/user/main";
-    }
-
-    @GetMapping("/login")
-    public String loginForm() {
-        return "/user/signin";
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO dto, HttpSession session) {
-        UserDTO loginResult = userService.login(dto);
-        System.out.println("DTO ::" + dto);
-        if (loginResult != null) {
-            session.setAttribute("loginId", loginResult.getUserId());
-            session.setAttribute("name", loginResult.getName());
-            return "redirect:/";
-        } else {
-            System.out.println("login ::" +loginResult);
-            return "redirect:/users/login";
-        }
+    @GetMapping("/{idx}")
+    public String findById(@PathVariable Long idx, Model model) {
+        UserDTO userDTO = userService.findById(idx);
+        model.addAttribute("user", userDTO);
+        return "/user/userPage";
     }
 }
